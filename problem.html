@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Problema</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+  <h2 class="mb-4">📋 Etapa 1 – Registro do Problema</h2>
+
+  <form>
+    <!-- Título do Problema -->
+    <div class="mb-3">
+      <label for="titulo" class="form-label">Título do Problema</label>
+      <input type="text" class="form-control" id="titulo" placeholder="Ex: Falta de água em escolas rurais">
+    </div>
+
+    <!-- Descrição Detalhada -->
+    <div class="mb-3">
+      <label for="descricao" class="form-label">Descrição Detalhada</label>
+      <textarea class="form-control" id="descricao" rows="4" placeholder="Explique o problema com detalhes..."></textarea>
+    </div>
+
+    <!-- Público Afetado -->
+    <div class="mb-3">
+      <label for="publico_afetado" class="form-label">Público Afetado</label>
+      <select multiple class="form-select" id="publico_afetado">
+        <option value="criancas">Crianças</option>
+        <option value="adolescentes">Adolescentes</option>
+        <option value="idosos">Idosos</option>
+        <option value="mulheres">Mulheres</option>
+        <option value="comunidade">Comunidade em geral</option>
+      </select>
+      <div class="form-text">Segure Ctrl (ou Cmd) para selecionar várias opções.</div>
+    </div>
+
+    <!-- Localização -->
+    <div class="mb-3">
+      <label for="localizacao" class="form-label">Localização (Cidade/Bairro)</label>
+      <input type="text" class="form-control" id="localizacao" placeholder="Ex: São Borja - RS">
+    </div>
+
+    <!-- Tempo de Existência -->
+    <div class="mb-3">
+      <label for="tempo" class="form-label">Tempo de Existência</label>
+      <select class="form-select" id="tempo">
+        <option selected disabled>Selecione uma opção</option>
+        <option value="1">Menos de 1 mês</option>
+        <option value="2">1 a 6 meses</option>
+        <option value="3">Mais de 1 ano</option>
+      </select>
+    </div>
+
+    <!-- Tentativas de Resolução -->
+    <div class="mb-3">
+      <label class="form-label">Já tentaram resolver?</label><br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="tentativas" id="tentativa_sim" value="sim">
+        <label class="form-check-label" for="tentativa_sim">Sim</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="tentativas" id="tentativa_nao" value="nao">
+        <label class="form-check-label" for="tentativa_nao">Não</label>
+      </div>
+    </div>
+
+    <!-- Descrição das Tentativas -->
+    <div class="mb-3">
+      <label for="descricao_tentativas" class="form-label">Descreva as tentativas anteriores (se houver)</label>
+      <textarea class="form-control" id="descricao_tentativas" rows="3" placeholder="Ex: Enviaram ofícios, mas não houve resposta..."></textarea>
+    </div>
+
+    <!-- Botão -->
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
