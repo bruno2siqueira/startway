@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentores - MVP PROBY</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .mentor-card {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .mentor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .mentor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .rating {
+            color: #ffc107;
+        }
+        .availability-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .available {
+            background-color: #28a745;
+        }
+        .busy {
+            background-color: #ffc107;
+        }
+        .offline {
+            background-color: #dc3545;
+        }
+        .mentorship-request {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        .filter-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="../formulario/index.html"><i class="fas fa-lightbulb"></i> MVP PROBY</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="../formulario/index.html">Problemas</a>
+                <a class="nav-link" href="../trilha/index.html">Trilha</a>
+                <a class="nav-link active" href="#">Mentores</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-3">
+                <!-- Filtros -->
+                <div class="filter-section">
+                    <h5><i class="fas fa-filter"></i> Filtros</h5>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Área de Especialização</label>
+                        <select class="form-select" id="areaFilter">
+                            <option value="">Todas as áreas</option>
+                            <option value="tecnologia">Tecnologia</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="financas">Finanças</option>
+                            <option value="vendas">Vendas</option>
+                            <option value="produto">Produto</option>
+                            <option value="operacoes">Operações</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Disponibilidade</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="availableOnly">
+                            <label class="form-check-label" for="availableOnly">
+                                Apenas disponíveis
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Avaliação Mínima</label>
+                        <select class="form-select" id="ratingFilter">
+                            <option value="">Qualquer avaliação</option>
+                            <option value="4">4+ estrelas</option>
+                            <option value="4.5">4.5+ estrelas</option>
+                            <option value="5">5 estrelas</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search"></i> Aplicar Filtros
+                    </button>
+                </div>
+
+                <!-- Suas Mentorias -->
+                <div class="filter-section">
+                    <h5><i class="fas fa-handshake"></i> Suas Mentorias</h5>
+                    <div class="mentorship-request">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="https://via.placeholder.com/40" alt="Ana Silva" class="rounded-circle me-2">
+                            <div>
+                                <strong>Ana Silva</strong>
+                                <br><small class="text-muted">Marketing Digital</small>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-warning">Pendente</span>
+                            <small>Há 2 dias</small>
+                        </div>
+                    </div>
+
+                    <div class="mentorship-request">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="https://via.placeholder.com/40" alt="Carlos Santos" class="rounded-circle me-2">
+                            <div>
+                                <strong>Carlos Santos</strong>
+                                <br><small class="text-muted">Tecnologia</small>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-success">Confirmada</span>
+                            <small>Amanhã 14h</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-users"></i> Mentores Disponíveis</h2>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#becomeMentorModal">
+                        <i class="fas fa-plus"></i> Tornar-se Mentor
+                    </button>
+                </div>
+
+                <div class="row" id="mentorsGrid">
+                    <!-- Mentor 1 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100">
+                            <div class="card-body text-center position-relative">
+                                <span class="status-badge badge bg-success">
+                                    <span class="availability-indicator available"></span>Disponível
+                                </span>
+                                <img src="https://via.placeholder.com/80" alt="Ana Silva" class="mentor-avatar mb-3">
+                                <h5 class="card-title">Ana Silva</h5>
+                                <p class="text-muted">Marketing Digital & Growth</p>
+                                <div class="rating mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="ms-1">5.0 (23 avaliações)</span>
+                                </div>
+                                <p class="card-text small">Especialista em crescimento de startups com 8 anos de experiência em marketing digital.</p>
+                                <div class="mb-3">
+                                    <span class="badge bg-primary me-1">Marketing</span>
+                                    <span class="badge bg-primary me-1">Growth</span>
+                                    <span class="badge bg-primary">SEO</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="requestMentorship('Ana Silva', 'ana.silva@email.com')">
+                                    <i class="fas fa-calendar"></i> Solicitar Mentoria
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mentor 2 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100">
+                            <div class="card-body text-center position-relative">
+                                <span class="status-badge badge bg-success">
+                                    <span class="availability-indicator available"></span>Disponível
+                                </span>
+                                <img src="https://via.placeholder.com/80" alt="Carlos Santos" class="mentor-avatar mb-3">
+                                <h5 class="card-title">Carlos Santos</h5>
+                                <p class="text-muted">CTO & Desenvolvimento</p>
+                                <div class="rating mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="ms-1">4.9 (31 avaliações)</span>
+                                </div>
+                                <p class="card-text small">CTO com 12 anos de experiência em desenvolvimento de produtos tecnológicos e liderança de equipes.</p>
+                                <div class="mb-3">
+                                    <span class="badge bg-primary me-1">Tecnologia</span>
+                                    <span class="badge bg-primary me-1">Produto</span>
+                                    <span class="badge bg-primary">Liderança</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="requestMentorship('Carlos Santos', 'carlos.santos@email.com')">
+                                    <i class="fas fa-calendar"></i> Solicitar Mentoria
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mentor 3 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100">
+                            <div class="card-body text-center position-relative">
+                                <span class="status-badge badge bg-warning">
+                                    <span class="availability-indicator busy"></span>Ocupado
+                                </span>
+                                <img src="https://via.placeholder.com/80" alt="Maria Oliveira" class="mentor-avatar mb-3">
+                                <h5 class="card-title">Maria Oliveira</h5>
+                                <p class="text-muted">CFO & Finanças</p>
+                                <div class="rating mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="ms-1">4.8 (18 avaliações)</span>
+                                </div>
+                                <p class="card-text small">CFO especializada em planejamento financeiro e captação de recursos para startups.</p>
+                                <div class="mb-3">
+                                    <span class="badge bg-primary me-1">Finanças</span>
+                                    <span class="badge bg-primary me-1">Investimento</span>
+                                    <span class="badge bg-primary">Planejamento</span>
+                                </div>
+                                <button class="btn btn-secondary btn-sm" disabled>
+                                    <i class="fas fa-clock"></i> Indisponível
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mentor 4 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100">
+                            <div class="card-body text-center position-relative">
+                                <span class="status-badge badge bg-success">
+                                    <span class="availability-indicator available"></span>Disponível
+                                </span>
+                                <img src="https://via.placeholder.com/80" alt="João Pereira" class="mentor-avatar mb-3">
+                                <h5 class="card-title">João Pereira</h5>
+                                <p class="text-muted">Vendas & Negócios</p>
+                                <div class="rating mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span class="ms-1">4.2 (15 avaliações)</span>
+                                </div>
+                                <p class="card-text small">Especialista em vendas B2B e desenvolvimento de negócios com foco em startups.</p>
+                                <div class="mb-3">
+                                    <span class="badge bg-primary me-1">Vendas</span>
+                                    <span class="badge bg-primary me-1">B2B</span>
+                                    <span class="badge bg-primary">Negócios</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="requestMentorship('João Pereira', 'joao.pereira@email.com')">
+                                    <i class="fas fa-calendar"></i> Solicitar Mentoria
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mentor 5 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100">
+                            <div class="card-body text-center position-relative">
+                                <span class="status-badge badge bg-success">
+                                    <span class="availability-indicator available"></span>Disponível
+                                </span>
+                                <img src="https://via.placeholder.com/80" alt="Fernanda Costa" class="mentor-avatar mb-3">
+                                <h5 class="card-title">Fernanda Costa</h5>
+                                <p class="text-muted">UX/UI & Produto</p>
+                                <div class="rating mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="ms-1">4.7 (27 avaliações)</span>
+                                </div>
+                                <p class="card-text small">Designer de produto com experiência em UX/UI e desenvolvimento de produtos digitais.</p>
+                                <div class="mb-3">
+                                    <span class="badge bg-primary me-1">UX/UI</span>
+                                    <span class="badge bg-primary me-1">Produto</span>
+                                    <span class="badge bg-primary">Design</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="requestMentorship('Fernanda Costa', 'fernanda.costa@email.com')">
+                                    <i class="fas fa-calendar"></i> Solicitar Mentoria
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mentor 6 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card mentor-card h-100">
+                            <div class="card-body text-center position-relative">
+                                <span class="status-badge badge bg-danger">
+                                    <span class="availability-indicator offline"></span>Offline
+                                </span>
+                                <img src="https://via.placeholder.com/80" alt="Roberto Lima" class="mentor-avatar mb-3">
+                                <h5 class="card-title">Roberto Lima</h5>
+                                <p class="text-muted">Operações & Logística</p>
+                                <div class="rating mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span class="ms-1">4.1 (12 avaliações)</span>
+                                </div>
+                                <p class="card-text small">Especialista em operações e otimização de processos para empresas em crescimento.</p>
+                                <div class="mb-3">
+                                    <span class="badge bg-primary me-1">Operações</span>
+                                    <span class="badge bg-primary me-1">Logística</span>
+                                    <span class="badge bg-primary">Processos</span>
+                                </div>
+                                <button class="btn btn-secondary btn-sm" disabled>
+                                    <i class="fas fa-user-slash"></i> Offline
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Solicitar Mentoria -->
+    <div class="modal fade" id="mentorshipModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Solicitar Mentoria</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="mentorshipForm">
+                        <div class="mb-3">
+                            <label class="form-label">Mentor Selecionado</label>
+                            <input type="text" class="form-control" id="selectedMentor" readonly>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="mentorshipTopic" class="form-label">Tópico da Mentoria *</label>
+                            <select class="form-select" id="mentorshipTopic" required>
+                                <option value="">Selecione um tópico</option>
+                                <option value="validacao-problema">Validação de Problema</option>
+                                <option value="desenvolvimento-mvp">Desenvolvimento de MVP</option>
+                                <option value="estrategia-marketing">Estratégia de Marketing</option>
+                                <option value="captacao-recursos">Captação de Recursos</option>
+                                <option value="vendas-negociacao">Vendas e Negociação</option>
+                                <option value="tecnologia-produto">Tecnologia e Produto</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="mentorshipDescription" class="form-label">Descrição do Desafio *</label>
+                            <textarea class="form-control" id="mentorshipDescription" rows="4" required 
+                                      placeholder="Descreva brevemente o desafio ou questão que gostaria de discutir..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="preferredDate" class="form-label">Data Preferida</label>
+                            <input type="date" class="form-control" id="preferredDate">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="preferredTime" class="form-label">Horário Preferido</label>
+                            <select class="form-select" id="preferredTime">
+                                <option value="">Selecione um horário</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="sessionDuration" class="form-label">Duração da Sessão</label>
+                            <select class="form-select" id="sessionDuration">
+                                <option value="30">30 minutos</option>
+                                <option value="60" selected>1 hora</option>
+                                <option value="90">1 hora e 30 minutos</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="submitMentorshipRequest()">
+                        <i class="fas fa-paper-plane"></i> Enviar Solicitação
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Tornar-se Mentor -->
+    <div class="modal fade" id="becomeMentorModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tornar-se Mentor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="mentorRegistrationForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="mentorName" class="form-label">Nome Completo *</label>
+                                    <input type="text" class="form-control" id="mentorName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="mentorEmail" class="form-label">E-mail *</label>
+                                    <input type="email" class="form-control" id="mentorEmail" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="mentorBio" class="form-label">Mini Biografia *</label>
+                            <textarea class="form-control" id="mentorBio" rows="3" required 
+                                      placeholder="Descreva sua experiência profissional e áreas de especialização..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="mentorAreas" class="form-label">Áreas de Especialização *</label>
+                            <select class="form-select" id="mentorAreas" multiple required>
+                                <option value="tecnologia">Tecnologia</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="financas">Finanças</option>
+                                <option value="vendas">Vendas</option>
+                                <option value="produto">Produto</option>
+                                <option value="operacoes">Operações</option>
+                                <option value="design">Design</option>
+                                <option value="lideranca">Liderança</option>
+                            </select>
+                            <small class="form-text text-muted">Segure Ctrl para selecionar múltiplas áreas</small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="mentorExperience" class="form-label">Anos de Experiência</label>
+                                    <select class="form-select" id="mentorExperience">
+                                        <option value="1-3">1-3 anos</option>
+                                        <option value="4-7">4-7 anos</option>
+                                        <option value="8-12">8-12 anos</option>
+                                        <option value="13+">13+ anos</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="mentorAvailability" class="form-label">Disponibilidade Semanal</label>
+                                    <select class="form-select" id="mentorAvailability">
+                                        <option value="1-2">1-2 horas</option>
+                                        <option value="3-5">3-5 horas</option>
+                                        <option value="6-10">6-10 horas</option>
+                                        <option value="10+">Mais de 10 horas</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="mentorLinkedin" class="form-label">LinkedIn (opcional)</label>
+                            <input type="url" class="form-control" id="mentorLinkedin" placeholder="https://linkedin.com/in/seu-perfil">
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="mentorTerms" required>
+                            <label class="form-check-label" for="mentorTerms">
+                                Concordo com os termos de uso e política de mentoria
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="submitMentorRegistration()">
+                        <i class="fas fa-user-plus"></i> Cadastrar como Mentor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function requestMentorship(mentorName, mentorEmail) {
+            document.getElementById('selectedMentor').value = mentorName;
+            const modal = new bootstrap.Modal(document.getElementById('mentorshipModal'));
+            modal.show();
+        }
+
+        function submitMentorshipRequest() {
+            const form = document.getElementById('mentorshipForm');
+            const formData = new FormData(form);
+            
+            // Validar campos obrigatórios
+            const topic = document.getElementById('mentorshipTopic').value;
+            const description = document.getElementById('mentorshipDescription').value;
+            
+            if (!topic || !description) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+
+            // Simular envio da solicitação
+            const requestData = {
+                mentor: document.getElementById('selectedMentor').value,
+                topic: topic,
+                description: description,
+                preferredDate: document.getElementById('preferredDate').value,
+                preferredTime: document.getElementById('preferredTime').value,
+                duration: document.getElementById('sessionDuration').value
+            };
+
+            console.log('Solicitação de mentoria:', requestData);
+            
+            // Fechar modal e mostrar confirmação
+            bootstrap.Modal.getInstance(document.getElementById('mentorshipModal')).hide();
+            
+            setTimeout(() => {
+                alert('Solicitação enviada com sucesso! O mentor receberá sua solicitação e responderá em até 24 horas.');
+            }, 500);
+        }
+
+        function submitMentorRegistration() {
+            const form = document.getElementById('mentorRegistrationForm');
+            
+            // Validar campos obrigatórios
+            const name = document.getElementById('mentorName').value;
+            const email = document.getElementById('mentorEmail').value;
+            const bio = document.getElementById('mentorBio').value;
+            const areas = document.getElementById('mentorAreas').selectedOptions;
+            const terms = document.getElementById('mentorTerms').checked;
+            
+            if (!name || !email || !bio || areas.length === 0 || !terms) {
+                alert('Por favor, preencha todos os campos obrigatórios e aceite os termos.');
+                return;
+            }
+
+            // Simular cadastro
+            const mentorData = {
+                name: name,
+                email: email,
+                bio: bio,
+                areas: Array.from(areas).map(option => option.value),
+                experience: document.getElementById('mentorExperience').value,
+                availability: document.getElementById('mentorAvailability').value,
+                linkedin: document.getElementById('mentorLinkedin').value
+            };
+
+            console.log('Cadastro de mentor:', mentorData);
+            
+            // Fechar modal e mostrar confirmação
+            bootstrap.Modal.getInstance(document.getElementById('becomeMentorModal')).hide();
+            
+            setTimeout(() => {
+                alert('Cadastro realizado com sucesso! Sua solicitação será analisada e você receberá uma resposta em até 48 horas.');
+            }, 500);
+        }
+
+        function applyFilters() {
+            const area = document.getElementById('areaFilter').value;
+            const availableOnly = document.getElementById('availableOnly').checked;
+            const rating = document.getElementById('ratingFilter').value;
+            
+            console.log('Filtros aplicados:', { area, availableOnly, rating });
+            
+            // Em um ambiente real, aqui seria feita a filtragem dos mentores
+            alert('Filtros aplicados! (Funcionalidade simulada)');
+        }
+    </script>
+</body>
+</html>
+
