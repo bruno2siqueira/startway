@@ -1,12 +1,12 @@
 # MVP STARTWAY - Plataforma de Problemas e Soluções
 
-![PROBY Logo](https://img.shields.io/badge/PROBY-MVP-blue?style=for-the-badge)
+![STARTWAY Logo](https://img.shields.io/badge/PROBY-MVP-blue?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Concluído-success?style=for-the-badge)
 ![Metodologia](https://img.shields.io/badge/Metodologia-TDY-orange?style=for-the-badge)
 
 ## 🎯 Visão Geral
 
-O MVP PROBY é uma plataforma inovadora para registro, validação e desenvolvimento de soluções para problemas sociais, utilizando a metodologia **TDY (Triagem-Diagnóstico-Yes/Why)** combinada com trilhas de empreendedorismo gamificadas e sistema de mentoria especializada.
+O MVP STARTWAY é uma plataforma inovadora para registro, validação e desenvolvimento de soluções para problemas sociais, utilizando a metodologia **TDY (Triagem-Diagnóstico-Yes/Why)** combinada com trilhas de empreendedorismo gamificadas e sistema de mentoria especializada.
 
 ## 🚀 Funcionalidades Principais
 
@@ -209,7 +209,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ---
 
-**MVP PROBY** - Transformando problemas em oportunidades através da metodologia TDY
+**MVP STARTWAY** - Transformando problemas em oportunidades através da metodologia TDY
 
 ![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge)
 
