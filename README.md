@@ -19,7 +19,6 @@ O MVP STARTWAY é uma plataforma inovadora para registro, validação e desenvol
 ### 🎙️ Funcionalidades de IA
 - **Transcrição de Áudio:** Web Speech API integrada
 - **Geolocalização Automática:** Detecção de cidade/estado
-- **Análise de Sentimento:** Classificação por palavras-chave
 - **Recomendações:** Sugestões baseadas no contexto do problema
 
 ### 🎮 Trilha de Empreendedorismo
@@ -57,6 +56,7 @@ O MVP STARTWAY é uma plataforma inovadora para registro, validação e desenvol
 
 ```
 mvp-startway/
+├── index.html
 ├── formulario/
 │   ├── index.html          # Formulário principal TDY
 │   └── script.js           # Lógica JavaScript
