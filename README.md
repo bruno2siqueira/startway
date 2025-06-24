@@ -56,7 +56,7 @@ O MVP PROBY é uma plataforma inovadora para registro, validação e desenvolvim
 ## 📁 Estrutura do Projeto
 
 ```
-mvp-proby/
+mvp-startway/
 ├── formulario/
 │   ├── index.html          # Formulário principal TDY
 │   └── script.js           # Lógica JavaScript
@@ -84,7 +84,7 @@ mvp-proby/
 git clone [repository-url]
 
 # Navegue para o diretório
-cd mvp-proby
+cd mvp-startway
 
 # Abra o formulário principal
 open formulario/index.html
@@ -190,9 +190,9 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - **Documentação:** Completa e detalhada
 
 ### Contato
-- 📧 Email: [contato@proby.com]
-- 🌐 Website: [www.proby.com]
-- 💼 LinkedIn: [linkedin.com/company/proby]
+- 📧 Email: [contato@startway.com]
+- 🌐 Website: [www.startway.com]
+- 💼 LinkedIn: [linkedin.com/company/startway]
 
 ## 🏆 Reconhecimentos
 
