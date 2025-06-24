@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha de Empreendedorismo - Lean Startup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        .progress-ring-circle {
+            transition: stroke-dasharray 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .level-card {
+            border-left: 4px solid #007bff;
+            transition: all 0.3s ease;
+        }
+        .level-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .level-card.completed {
+            border-left-color: #28a745;
+            background-color: #f8fff9;
+        }
+        .level-card.current {
+            border-left-color: #ffc107;
+            background-color: #fffbf0;
+        }
+        .checkpoint {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+        }
+        .checkpoint.completed {
+            background-color: #28a745;
+            color: white;
+        }
+        .checkpoint.current {
+            background-color: #ffc107;
+            color: white;
+        }
+        .checkpoint.pending {
+            background-color: #e9ecef;
+            color: #6c757d;
+        }
+        .content-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        .content-item:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+        .content-item.completed {
+            background-color: #f8fff9;
+            border-color: #28a745;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="../formulario/index.html"><i class="fas fa-lightbulb"></i> MVP STARTWAY</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="../formulario/index.html">Problemas</a>
+                <a class="nav-link active" href="#">Trilha</a>
+                <a class="nav-link" href="../mentores/index.html">Mentores</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-3">
+                <!-- Sidebar com progresso -->
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-chart-line"></i> Seu Progresso</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="progress-ring">
+                            <svg width="120" height="120">
+                                <circle cx="60" cy="60" r="50" stroke="#e9ecef" stroke-width="8" fill="transparent"/>
+                                <circle cx="60" cy="60" r="50" stroke="#007bff" stroke-width="8" fill="transparent"
+                                        stroke-dasharray="314" stroke-dashoffset="251" class="progress-ring-circle" id="progressCircle"/>
+                            </svg>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                <h3 id="progressPercent">20%</h3>
+                                <small>Concluído</small>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="row text-center">
+                                <div class="col-6">
+                                    <h5 id="completedLevels">2</h5>
+                                    <small>Níveis</small>
+                                </div>
+                                <div class="col-6">
+                                    <h5 id="totalPoints">150</h5>
+                                    <small>Pontos</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conquistas -->
+                <div class="card shadow-sm mt-3">
+                    <div class="card-header bg-success text-white">
+                        <h6 class="mb-0"><i class="fas fa-trophy"></i> Conquistas</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-medal text-warning me-2"></i>
+                            <small>Primeiro Problema Validado</small>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-star text-warning me-2"></i>
+                            <small>MVP Criado</small>
+                        </div>
+                        <div class="d-flex align-items-center text-muted">
+                            <i class="fas fa-crown me-2"></i>
+                            <small>Primeira Venda (Bloqueado)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-route"></i> Trilha Lean Startup</h2>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary active" onclick="showView('levels')">
+                            <i class="fas fa-layer-group"></i> Níveis
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" onclick="showView('content')">
+                            <i class="fas fa-book"></i> Conteúdos
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Visualização por Níveis -->
+                <div id="levelsView">
+                    <div class="row">
+                        <!-- Nível 1 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card level-card completed">
+                                <div class="card-body">
+                                    <div class="checkpoint completed">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <h5 class="card-title text-center">Nível 1: Identificação do Problema</h5>
+                                    <p class="card-text">Aprenda a identificar e validar problemas reais no mercado.</p>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar bg-success" style="width: 100%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small>5/5 atividades</small>
+                                        <small><i class="fas fa-star text-warning"></i> 100 pontos</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nível 2 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card level-card completed">
+                                <div class="card-body">
+                                    <div class="checkpoint completed">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <h5 class="card-title text-center">Nível 2: Hipóteses de Solução</h5>
+                                    <p class="card-text">Desenvolva hipóteses testáveis para resolver o problema identificado.</p>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar bg-success" style="width: 100%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small>4/4 atividades</small>
+                                        <small><i class="fas fa-star text-warning"></i> 80 pontos</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nível 3 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card level-card current">
+                                <div class="card-body">
+                                    <div class="checkpoint current">
+                                        <span>3</span>
+                                    </div>
+                                    <h5 class="card-title text-center">Nível 3: MVP (Produto Mínimo Viável)</h5>
+                                    <p class="card-text">Construa um MVP para testar suas hipóteses com clientes reais.</p>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar bg-warning" style="width: 60%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small>3/5 atividades</small>
+                                        <small><i class="fas fa-star text-warning"></i> 60/100 pontos</small>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm mt-2" onclick="openLevel(3)">
+                                        <i class="fas fa-play"></i> Continuar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nível 4 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card level-card">
+                                <div class="card-body">
+                                    <div class="checkpoint pending">
+                                        <span>4</span>
+                                    </div>
+                                    <h5 class="card-title text-center">Nível 4: Teste e Validação</h5>
+                                    <p class="card-text">Teste seu MVP com usuários e colete feedback valioso.</p>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small>0/6 atividades</small>
+                                        <small><i class="fas fa-lock text-muted"></i> Bloqueado</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nível 5 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card level-card">
+                                <div class="card-body">
+                                    <div class="checkpoint pending">
+                                        <span>5</span>
+                                    </div>
+                                    <h5 class="card-title text-center">Nível 5: Pivotar ou Perseverar</h5>
+                                    <p class="card-text">Analise os resultados e decida o próximo passo da sua startup.</p>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small>0/4 atividades</small>
+                                        <small><i class="fas fa-lock text-muted"></i> Bloqueado</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nível 6 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card level-card">
+                                <div class="card-body">
+                                    <div class="checkpoint pending">
+                                        <span>6</span>
+                                    </div>
+                                    <h5 class="card-title text-center">Nível 6: Escalabilidade</h5>
+                                    <p class="card-text">Prepare sua solução para crescer e impactar mais pessoas.</p>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small>0/5 atividades</small>
+                                        <small><i class="fas fa-lock text-muted"></i> Bloqueado</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualização por Conteúdos -->
+                <div id="contentView" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <h5><i class="fas fa-video"></i> Vídeos</h5>
+                            <div class="content-item completed">
+                                <h6>Introdução ao Lean Startup</h6>
+                                <small class="text-muted">15 min • Assistido</small>
+                                <div class="mt-2">
+                                    <i class="fas fa-play-circle text-success"></i>
+                                    <span class="ms-2">Concluído</span>
+                                </div>
+                            </div>
+                            <div class="content-item completed">
+                                <h6>Validação de Problemas</h6>
+                                <small class="text-muted">22 min • Assistido</small>
+                                <div class="mt-2">
+                                    <i class="fas fa-play-circle text-success"></i>
+                                    <span class="ms-2">Concluído</span>
+                                </div>
+                            </div>
+                            <div class="content-item">
+                                <h6>Construindo um MVP</h6>
+                                <small class="text-muted">18 min • Em progresso</small>
+                                <div class="mt-2">
+                                    <div class="progress" style="height: 4px;">
+                                        <div class="progress-bar" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <h5><i class="fas fa-file-text"></i> Textos</h5>
+                            <div class="content-item completed">
+                                <h6>Guia: Como Identificar Problemas</h6>
+                                <small class="text-muted">5 min de leitura • Lido</small>
+                                <div class="mt-2">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <span class="ms-2">Concluído</span>
+                                </div>
+                            </div>
+                            <div class="content-item completed">
+                                <h6>Template: Canvas de Problema</h6>
+                                <small class="text-muted">Download • Baixado</small>
+                                <div class="mt-2">
+                                    <i class="fas fa-download text-success"></i>
+                                    <span class="ms-2">Baixado</span>
+                                </div>
+                            </div>
+                            <div class="content-item">
+                                <h6>Checklist: MVP Essencial</h6>
+                                <small class="text-muted">3 min de leitura</small>
+                                <div class="mt-2">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-book-open"></i> Ler
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <h5><i class="fas fa-tasks"></i> Atividades</h5>
+                            <div class="content-item completed">
+                                <h6>Exercício: Mapeamento de Problemas</h6>
+                                <small class="text-muted">Prático • Entregue</small>
+                                <div class="mt-2">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <span class="ms-2">Nota: 9.5</span>
+                                </div>
+                            </div>
+                            <div class="content-item completed">
+                                <h6>Quiz: Lean Startup Básico</h6>
+                                <small class="text-muted">10 questões • Concluído</small>
+                                <div class="mt-2">
+                                    <i class="fas fa-trophy text-warning"></i>
+                                    <span class="ms-2">85% de acerto</span>
+                                </div>
+                            </div>
+                            <div class="content-item">
+                                <h6>Projeto: Protótipo MVP</h6>
+                                <small class="text-muted">Em andamento</small>
+                                <div class="mt-2">
+                                    <button class="btn btn-sm btn-primary">
+                                        <i class="fas fa-upload"></i> Enviar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Nível Detalhado -->
+    <div class="modal fade" id="levelModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="levelModalTitle">Nível 3: MVP (Produto Mínimo Viável)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6>Atividades do Nível</h6>
+                            <div class="list-group">
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Definir funcionalidades essenciais
+                                    </div>
+                                    <span class="badge bg-success">Concluído</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Escolher tecnologia adequada
+                                    </div>
+                                    <span class="badge bg-success">Concluído</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Criar wireframes básicos
+                                    </div>
+                                    <span class="badge bg-success">Concluído</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-circle text-warning me-2"></i>
+                                        Desenvolver protótipo funcional
+                                    </div>
+                                    <span class="badge bg-warning">Em andamento</span>
+                                </div>
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-circle text-muted me-2"></i>
+                                        Preparar para testes
+                                    </div>
+                                    <span class="badge bg-secondary">Pendente</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>Recursos</h6>
+                            <div class="list-group list-group-flush">
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-video me-2"></i> Vídeo: MVP na Prática
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-file-pdf me-2"></i> Template: Canvas MVP
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <i class="fas fa-link me-2"></i> Ferramentas Recomendadas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary">Continuar Atividade</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showView(view) {
+            // Atualizar botões
+            document.querySelectorAll('.btn-group .btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Mostrar/ocultar visualizações
+            if (view === 'levels') {
+                document.getElementById('levelsView').style.display = 'block';
+                document.getElementById('contentView').style.display = 'none';
+            } else {
+                document.getElementById('levelsView').style.display = 'none';
+                document.getElementById('contentView').style.display = 'block';
+            }
+        }
+
+        function openLevel(levelNumber) {
+            const modal = new bootstrap.Modal(document.getElementById('levelModal'));
+            modal.show();
+        }
+
+        // Atualizar progresso circular
+        function updateProgress(percent) {
+            const circle = document.getElementById('progressCircle');
+            const circumference = 2 * Math.PI * 50; // raio = 50
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        // Inicializar com 20% de progresso
+        updateProgress(20);
+    </script>
+</body>
+</html>
+

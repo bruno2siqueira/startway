@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - STARTWAY</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
+            --sidebar-width: 280px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--light-color);
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-brand i {
+            margin-right: 10px;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            margin: 5px 15px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .nav-link i {
+            width: 20px;
+            margin-right: 15px;
+            text-align: center;
+        }
+
+        .nav-text {
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .nav-text,
+        .sidebar.collapsed .sidebar-brand span {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .main-content.expanded {
+            margin-left: 80px;
+        }
+
+        .top-navbar {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .content-area {
+            padding: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card.success {
+            border-left-color: var(--success-color);
+        }
+
+        .stat-card.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .stat-card.info {
+            border-left-color: var(--accent-color);
+        }
+
+        .stat-card.danger {
+            border-left-color: var(--danger-color);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-icon.primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .stat-icon.success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+        }
+
+        .stat-icon.warning {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        }
+
+        .stat-icon.info {
+            background: linear-gradient(135deg, var(--accent-color), #0891b2);
+        }
+
+        .stat-icon.danger {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: var(--success-color);
+        }
+
+        .stat-change.negative {
+            color: var(--danger-color);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .recent-activity {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 2px;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .quick-action {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .quick-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            color: var(--primary-color);
+        }
+
+        .quick-action i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .quick-action-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .quick-action-desc {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block !important;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .welcome-subtitle {
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html" class="sidebar-brand">
+                <i class="fas fa-rocket"></i>
+                <span>STARTWAY</span>
+            </a>
+            <button class="sidebar-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="#" class="nav-link active" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('meus-dados')">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-text">Meus Dados</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('problemas')">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span class="nav-text">Problemas</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('trilhas')">
+                    <i class="fas fa-route"></i>
+                    <span class="nav-text">Trilhas</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('mentores')">
+                    <i class="fas fa-users"></i>
+                    <span class="nav-text">Mentores</span>
+                </a>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2); margin: 20px 15px;">
+            <div class="nav-item">
+                <a href="#" class="nav-link" onclick="showSection('configuracoes')">
+                    <i class="fas fa-cog"></i>
+                    <span class="nav-text">Configurações</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="nav-text">Sair</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Top Navbar -->
+        <div class="top-navbar">
+            <div class="d-flex align-items-center">
+                <button class="mobile-menu-btn me-3" onclick="toggleMobileSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+            </div>
+            <div class="user-menu">
+                <img src="https://via.placeholder.com/40" alt="Avatar" class="user-avatar" id="userAvatar">
+                <div class="dropdown">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <span id="userName">Usuário</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showSection('meus-dados')">
+                            <i class="fas fa-user me-2"></i>Perfil
+                        </a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showSection('configuracoes')">
+                            <i class="fas fa-cog me-2"></i>Configurações
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" onclick="logout()">
+                            <i class="fas fa-sign-out-alt me-2"></i>Sair
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="content-section">
+                <!-- Welcome Card -->
+                <div class="welcome-card">
+                    <div class="welcome-content">
+                        <h2 class="welcome-title">Bem-vindo de volta!</h2>
+                        <p class="welcome-subtitle">Continue sua jornada de transformar problemas em oportunidades.</p>
+                        <button class="btn btn-light" onclick="window.location.href='../formulario/index.html'">
+                            <i class="fas fa-plus me-2"></i>Registrar Novo Problema
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <a href="../formulario/index.html" class="quick-action">
+                        <i class="fas fa-plus-circle"></i>
+                        <div class="quick-action-title">Novo Problema</div>
+                        <div class="quick-action-desc">Registrar problema usando TDY</div>
+                    </a>
+                    <a href="../trilha/index.html" class="quick-action">
+                        <i class="fas fa-play-circle"></i>
+                        <div class="quick-action-title">Continuar Trilha</div>
+                        <div class="quick-action-desc">Lean Startup em progresso</div>
+                    </a>
+                    <a href="../mentores/index.html" class="quick-action">
+                        <i class="fas fa-user-friends"></i>
+                        <div class="quick-action-title">Buscar Mentor</div>
+                        <div class="quick-action-desc">Conectar com especialistas</div>
+                    </a>
+                    <a href="#" class="quick-action" onclick="showSection('configuracoes')">
+                        <i class="fas fa-chart-bar"></i>
+                        <div class="quick-action-title">Relatórios</div>
+                        <div class="quick-action-desc">Análise de progresso</div>
+                    </a>
+                </div>
+
+                <!-- Statistics Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Problemas Registrados</div>
+                            <div class="stat-icon primary">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="problemasCount">12</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +3 este mês
+                        </div>
+                    </div>
+
+                    <div class="stat-card success">
+                        <div class="stat-header">
+                            <div class="stat-title">Trilhas Concluídas</div>
+                            <div class="stat-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="trilhasCount">2</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +1 esta semana
+                        </div>
+                    </div>
+
+                    <div class="stat-card info">
+                        <div class="stat-header">
+                            <div class="stat-title">Mentores Conectados</div>
+                            <div class="stat-icon info">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="mentoresCount">5</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +2 este mês
+                        </div>
+                    </div>
+
+                    <div class="stat-card warning">
+                        <div class="stat-header">
+                            <div class="stat-title">Score TDY Médio</div>
+                            <div class="stat-icon warning">
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="scoreCount">78</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +5 pontos
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3 class="chart-title">Progresso Mensal</h3>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-outline-primary active">6M</button>
+                                    <button type="button" class="btn btn-outline-primary">1A</button>
+                                    <button type="button" class="btn btn-outline-primary">Tudo</button>
+                                </div>
+                            </div>
+                            <canvas id="progressChart" height="300"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3 class="chart-title">Categorias de Problemas</h3>
+                            </div>
+                            <canvas id="categoriesChart" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h3 class="chart-title mb-4">Atividades Recentes</h3>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: var(--success-color);">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Problema "Falta de internet rural" aprovado</div>
+                            <div class="activity-time">2 horas atrás</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: var(--primary-color);">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Nível 3 da trilha Lean Startup concluído</div>
+                            <div class="activity-time">1 dia atrás</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: var(--accent-color);">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Novo mentor conectado: Ana Silva</div>
+                            <div class="activity-time">3 dias atrás</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: var(--warning-color);">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Score TDY de 85 pontos alcançado</div>
+                            <div class="activity-time">1 semana atrás</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meus Dados Section -->
+            <div id="meus-dados-section" class="content-section" style="display: none;">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="chart-container text-center">
+                            <img src="https://via.placeholder.com/150" alt="Avatar" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                            <h3 id="profileName">Usuário Demo</h3>
+                            <p class="text-muted" id="profileEmail">usuario@email.com</p>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-edit me-2"></i>Editar Perfil
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="chart-container">
+                            <h3 class="chart-title mb-4">Informações Pessoais</h3>
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Nome</label>
+                                        <input type="text" class="form-control" value="Usuário">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Sobrenome</label>
+                                        <input type="text" class="form-control" value="Demo">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" value="usuario@email.com">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Telefone</label>
+                                        <input type="tel" class="form-control" value="(11) 99999-9999">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Cidade</label>
+                                        <input type="text" class="form-control" value="São Paulo, SP">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Área de Interesse</label>
+                                    <select class="form-control">
+                                        <option>Tecnologia</option>
+                                        <option>Educação</option>
+                                        <option>Saúde</option>
+                                        <option>Meio Ambiente</option>
+                                        <option>Social</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Salvar Alterações
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problemas Section -->
+            <div id="problemas-section" class="content-section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Meus Problemas</h2>
+                    <button class="btn btn-primary" onclick="window.location.href='../formulario/index.html'">
+                        <i class="fas fa-plus me-2"></i>Novo Problema
+                    </button>
+                </div>
+
+                <div class="stats-grid mb-4">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Total de Problemas</div>
+                            <div class="stat-icon primary">
+                                <i class="fas fa-list"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">12</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-header">
+                            <div class="stat-title">Aprovados</div>
+                            <div class="stat-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">8</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-header">
+                            <div class="stat-title">Em Análise</div>
+                            <div class="stat-icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">3</div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-header">
+                            <div class="stat-title">Rejeitados</div>
+                            <div class="stat-icon danger">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">1</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Categoria</th>
+                                    <th>Score TDY</th>
+                                    <th>Status</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Falta de internet em comunidades rurais</td>
+                                    <td><span class="badge bg-primary">Tecnológico</span></td>
+                                    <td><strong>85</strong></td>
+                                    <td><span class="badge bg-success">Aprovado</span></td>
+                                    <td>20/06/2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Educação digital para idosos</td>
+                                    <td><span class="badge bg-info">Educacional</span></td>
+                                    <td><strong>72</strong></td>
+                                    <td><span class="badge bg-success">Aprovado</span></td>
+                                    <td>18/06/2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Gestão de resíduos urbanos</td>
+                                    <td><span class="badge bg-success">Ambiental</span></td>
+                                    <td><strong>68</strong></td>
+                                    <td><span class="badge bg-warning">Em Análise</span></td>
+                                    <td>15/06/2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trilhas Section -->
+            <div id="trilhas-section" class="content-section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Minhas Trilhas</h2>
+                    <button class="btn btn-primary" onclick="window.location.href='../trilha/index.html'">
+                        <i class="fas fa-play me-2"></i>Continuar Trilha
+                    </button>
+                </div>
+
+                <div class="stats-grid mb-4">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Trilhas Ativas</div>
+                            <div class="stat-icon primary">
+                                <i class="fas fa-route"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">1</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-header">
+                            <div class="stat-title">Níveis Concluídos</div>
+                            <div class="stat-icon success">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">3</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-header">
+                            <div class="stat-title">Pontos Totais</div>
+                            <div class="stat-icon info">
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">280</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-header">
+                            <div class="stat-title">Progresso Geral</div>
+                            <div class="stat-icon warning">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">50%</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3 class="chart-title mb-4">Trilha Lean Startup</h3>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 border rounded">
+                                <div class="me-3">
+                                    <i class="fas fa-check-circle text-success fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Nível 1: Identificação do Problema</h6>
+                                    <small class="text-muted">Concluído • 100 pontos</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 border rounded">
+                                <div class="me-3">
+                                    <i class="fas fa-check-circle text-success fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Nível 2: Hipóteses de Solução</h6>
+                                    <small class="text-muted">Concluído • 80 pontos</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 border rounded bg-light">
+                                <div class="me-3">
+                                    <i class="fas fa-play-circle text-primary fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Nível 3: MVP (Produto Mínimo Viável)</h6>
+                                    <small class="text-muted">Em progresso • 60/100 pontos</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 border rounded">
+                                <div class="me-3">
+                                    <i class="fas fa-lock text-muted fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Nível 4: Teste e Validação</h6>
+                                    <small class="text-muted">Bloqueado</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mentores Section -->
+            <div id="mentores-section" class="content-section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Meus Mentores</h2>
+                    <button class="btn btn-primary" onclick="window.location.href='../mentores/index.html'">
+                        <i class="fas fa-search me-2"></i>Buscar Mentores
+                    </button>
+                </div>
+
+                <div class="stats-grid mb-4">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Mentores Conectados</div>
+                            <div class="stat-icon primary">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">5</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-header">
+                            <div class="stat-title">Mentorias Ativas</div>
+                            <div class="stat-icon success">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">2</div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-header">
+                            <div class="stat-title">Horas de Mentoria</div>
+                            <div class="stat-icon info">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">24</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-header">
+                            <div class="stat-title">Avaliação Média</div>
+                            <div class="stat-icon warning">
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">4.8</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="chart-container">
+                            <div class="d-flex align-items-center">
+                                <img src="https://via.placeholder.com/80" alt="Mentor" class="rounded-circle me-3">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1">Ana Silva</h5>
+                                    <p class="text-muted mb-1">Marketing Digital & Growth</p>
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-success me-2">Ativa</span>
+                                        <small class="text-muted">Próxima sessão: Amanhã 14h</small>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-video"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="chart-container">
+                            <div class="d-flex align-items-center">
+                                <img src="https://via.placeholder.com/80" alt="Mentor" class="rounded-circle me-3">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-1">Carlos Santos</h5>
+                                    <p class="text-muted mb-1">CTO & Desenvolvimento</p>
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-warning me-2">Pendente</span>
+                                        <small class="text-muted">Aguardando confirmação</small>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-clock"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configurações Section -->
+            <div id="configuracoes-section" class="content-section" style="display: none;">
+                <h2 class="mb-4">Configurações</h2>
+                
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="chart-container">
+                            <h4 class="mb-3">Notificações</h4>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                                <label class="form-check-label" for="emailNotifications">
+                                    Notificações por email
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="pushNotifications" checked>
+                                <label class="form-check-label" for="pushNotifications">
+                                    Notificações push
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="mentorNotifications">
+                                <label class="form-check-label" for="mentorNotifications">
+                                    Notificações de mentores
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart-container">
+                            <h4 class="mb-3">Privacidade</h4>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="profilePublic">
+                                <label class="form-check-label" for="profilePublic">
+                                    Perfil público
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="showProgress" checked>
+                                <label class="form-check-label" for="showProgress">
+                                    Mostrar progresso nas trilhas
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="allowMessages" checked>
+                                <label class="form-check-label" for="allowMessages">
+                                    Permitir mensagens de outros usuários
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container mt-4">
+                    <h4 class="mb-3">Zona de Perigo</h4>
+                    <p class="text-muted mb-3">Ações irreversíveis que afetam permanentemente sua conta.</p>
+                    <button class="btn btn-outline-danger me-3">
+                        <i class="fas fa-download me-2"></i>Exportar Dados
+                    </button>
+                    <button class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>Excluir Conta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
+

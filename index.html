@@ -3,488 +3,568 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trilha de Empreendedorismo - Lean Startup</title>
+    <title>STARTWAY - Transformando Problemas em Oportunidades</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        .progress-ring {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto;
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
         }
-        .progress-ring-circle {
-            transition: stroke-dasharray 0.35s;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
         }
-        .level-card {
-            border-left: 4px solid #007bff;
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+
+        .hero-section {
+            padding: 120px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--accent-color), var(--success-color));
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4);
+        }
+
+        .btn-outline-custom {
+            border: 2px solid white;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
             transition: all 0.3s ease;
         }
-        .level-card:hover {
+
+        .btn-outline-custom:hover {
+            background: white;
+            color: var(--primary-color);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        .level-card.completed {
-            border-left-color: #28a745;
-            background-color: #f8fff9;
+
+        .features-section {
+            padding: 80px 0;
+            background: white;
         }
-        .level-card.current {
-            border-left-color: #ffc107;
-            background-color: #fffbf0;
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            height: 100%;
         }
-        .checkpoint {
-            width: 30px;
-            height: 30px;
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 10px;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
         }
-        .checkpoint.completed {
-            background-color: #28a745;
+
+        .stats-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--dark-color) 0%, #374151 100%);
             color: white;
         }
-        .checkpoint.current {
-            background-color: #ffc107;
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
+            border-radius: 20px 20px 0 0;
+            border-bottom: none;
         }
-        .checkpoint.pending {
-            background-color: #e9ecef;
-            color: #6c757d;
-        }
-        .content-item {
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+            padding: 12px 15px;
             transition: all 0.3s ease;
         }
-        .content-item:hover {
-            border-color: #007bff;
-            background-color: #f8f9fa;
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
         }
-        .content-item.completed {
-            background-color: #f8fff9;
-            border-color: #28a745;
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="../formulario/index.html"><i class="fas fa-lightbulb"></i> MVP PROBY</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="../formulario/index.html">Problemas</a>
-                <a class="nav-link active" href="#">Trilha</a>
-                <a class="nav-link" href="../mentores/index.html">Mentores</a>
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-rocket me-2"></i>STARTWAY
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inicio">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#funcionalidades">Funcionalidades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sobre">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contato">Contato</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="fas fa-sign-in-alt me-1"></i>Entrar
+                    </button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                        <i class="fas fa-user-plus me-1"></i>Cadastrar
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-lg-3">
-                <!-- Sidebar com progresso -->
-                <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-chart-line"></i> Seu Progresso</h5>
-                    </div>
-                    <div class="card-body text-center">
-                        <div class="progress-ring">
-                            <svg width="120" height="120">
-                                <circle cx="60" cy="60" r="50" stroke="#e9ecef" stroke-width="8" fill="transparent"/>
-                                <circle cx="60" cy="60" r="50" stroke="#007bff" stroke-width="8" fill="transparent"
-                                        stroke-dasharray="314" stroke-dashoffset="251" class="progress-ring-circle" id="progressCircle"/>
-                            </svg>
-                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                <h3 id="progressPercent">20%</h3>
-                                <small>Concluído</small>
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <div class="row text-center">
-                                <div class="col-6">
-                                    <h5 id="completedLevels">2</h5>
-                                    <small>Níveis</small>
-                                </div>
-                                <div class="col-6">
-                                    <h5 id="totalPoints">150</h5>
-                                    <small>Pontos</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Conquistas -->
-                <div class="card shadow-sm mt-3">
-                    <div class="card-header bg-success text-white">
-                        <h6 class="mb-0"><i class="fas fa-trophy"></i> Conquistas</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-2">
-                            <i class="fas fa-medal text-warning me-2"></i>
-                            <small>Primeiro Problema Validado</small>
-                        </div>
-                        <div class="d-flex align-items-center mb-2">
-                            <i class="fas fa-star text-warning me-2"></i>
-                            <small>MVP Criado</small>
-                        </div>
-                        <div class="d-flex align-items-center text-muted">
-                            <i class="fas fa-crown me-2"></i>
-                            <small>Primeira Venda (Bloqueado)</small>
-                        </div>
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1 class="hero-title">Transforme Problemas em <span style="color: var(--accent-color);">Oportunidades</span></h1>
+                    <p class="hero-subtitle">
+                        Plataforma inovadora para validar problemas sociais usando metodologia TDY, 
+                        trilhas de empreendedorismo e mentoria especializada.
+                    </p>
+                    <div class="mt-4">
+                        <button class="btn btn-primary-custom me-3" onclick="window.location.href='formulario/index.html'">
+                            <i class="fas fa-play me-2"></i>Começar Agora
+                        </button>
+                        <button class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#demoModal">
+                            <i class="fas fa-video me-2"></i>Ver Demo
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="col-lg-9">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2><i class="fas fa-route"></i> Trilha Lean Startup</h2>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-primary active" onclick="showView('levels')">
-                            <i class="fas fa-layer-group"></i> Níveis
-                        </button>
-                        <button type="button" class="btn btn-outline-primary" onclick="showView('content')">
-                            <i class="fas fa-book"></i> Conteúdos
-                        </button>
+    <!-- Features Section -->
+    <section id="funcionalidades" class="features-section">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="display-5 fw-bold mb-3">Funcionalidades Principais</h2>
+                    <p class="lead text-muted">Descubra como o STARTWAY pode ajudar você a validar e desenvolver soluções inovadoras</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Metodologia TDY</h4>
+                        <p class="text-muted">Sistema inteligente de Triagem, Diagnóstico e validação (Yes/Why) para problemas sociais com scoring automático.</p>
                     </div>
                 </div>
-
-                <!-- Visualização por Níveis -->
-                <div id="levelsView">
-                    <div class="row">
-                        <!-- Nível 1 -->
-                        <div class="col-md-6 mb-4">
-                            <div class="card level-card completed">
-                                <div class="card-body">
-                                    <div class="checkpoint completed">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <h5 class="card-title text-center">Nível 1: Identificação do Problema</h5>
-                                    <p class="card-text">Aprenda a identificar e validar problemas reais no mercado.</p>
-                                    <div class="progress mb-2">
-                                        <div class="progress-bar bg-success" style="width: 100%"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <small>5/5 atividades</small>
-                                        <small><i class="fas fa-star text-warning"></i> 100 pontos</small>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-route"></i>
                         </div>
-
-                        <!-- Nível 2 -->
-                        <div class="col-md-6 mb-4">
-                            <div class="card level-card completed">
-                                <div class="card-body">
-                                    <div class="checkpoint completed">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <h5 class="card-title text-center">Nível 2: Hipóteses de Solução</h5>
-                                    <p class="card-text">Desenvolva hipóteses testáveis para resolver o problema identificado.</p>
-                                    <div class="progress mb-2">
-                                        <div class="progress-bar bg-success" style="width: 100%"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <small>4/4 atividades</small>
-                                        <small><i class="fas fa-star text-warning"></i> 80 pontos</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Nível 3 -->
-                        <div class="col-md-6 mb-4">
-                            <div class="card level-card current">
-                                <div class="card-body">
-                                    <div class="checkpoint current">
-                                        <span>3</span>
-                                    </div>
-                                    <h5 class="card-title text-center">Nível 3: MVP (Produto Mínimo Viável)</h5>
-                                    <p class="card-text">Construa um MVP para testar suas hipóteses com clientes reais.</p>
-                                    <div class="progress mb-2">
-                                        <div class="progress-bar bg-warning" style="width: 60%"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <small>3/5 atividades</small>
-                                        <small><i class="fas fa-star text-warning"></i> 60/100 pontos</small>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm mt-2" onclick="openLevel(3)">
-                                        <i class="fas fa-play"></i> Continuar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Nível 4 -->
-                        <div class="col-md-6 mb-4">
-                            <div class="card level-card">
-                                <div class="card-body">
-                                    <div class="checkpoint pending">
-                                        <span>4</span>
-                                    </div>
-                                    <h5 class="card-title text-center">Nível 4: Teste e Validação</h5>
-                                    <p class="card-text">Teste seu MVP com usuários e colete feedback valioso.</p>
-                                    <div class="progress mb-2">
-                                        <div class="progress-bar" style="width: 0%"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <small>0/6 atividades</small>
-                                        <small><i class="fas fa-lock text-muted"></i> Bloqueado</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Nível 5 -->
-                        <div class="col-md-6 mb-4">
-                            <div class="card level-card">
-                                <div class="card-body">
-                                    <div class="checkpoint pending">
-                                        <span>5</span>
-                                    </div>
-                                    <h5 class="card-title text-center">Nível 5: Pivotar ou Perseverar</h5>
-                                    <p class="card-text">Analise os resultados e decida o próximo passo da sua startup.</p>
-                                    <div class="progress mb-2">
-                                        <div class="progress-bar" style="width: 0%"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <small>0/4 atividades</small>
-                                        <small><i class="fas fa-lock text-muted"></i> Bloqueado</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Nível 6 -->
-                        <div class="col-md-6 mb-4">
-                            <div class="card level-card">
-                                <div class="card-body">
-                                    <div class="checkpoint pending">
-                                        <span>6</span>
-                                    </div>
-                                    <h5 class="card-title text-center">Nível 6: Escalabilidade</h5>
-                                    <p class="card-text">Prepare sua solução para crescer e impactar mais pessoas.</p>
-                                    <div class="progress mb-2">
-                                        <div class="progress-bar" style="width: 0%"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <small>0/5 atividades</small>
-                                        <small><i class="fas fa-lock text-muted"></i> Bloqueado</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <h4 class="fw-bold mb-3">Trilhas Gamificadas</h4>
+                        <p class="text-muted">Jornada estruturada de empreendedorismo com metodologia Lean Startup, pontos e conquistas desbloqueáveis.</p>
                     </div>
                 </div>
-
-                <!-- Visualização por Conteúdos -->
-                <div id="contentView" style="display: none;">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <h5><i class="fas fa-video"></i> Vídeos</h5>
-                            <div class="content-item completed">
-                                <h6>Introdução ao Lean Startup</h6>
-                                <small class="text-muted">15 min • Assistido</small>
-                                <div class="mt-2">
-                                    <i class="fas fa-play-circle text-success"></i>
-                                    <span class="ms-2">Concluído</span>
-                                </div>
-                            </div>
-                            <div class="content-item completed">
-                                <h6>Validação de Problemas</h6>
-                                <small class="text-muted">22 min • Assistido</small>
-                                <div class="mt-2">
-                                    <i class="fas fa-play-circle text-success"></i>
-                                    <span class="ms-2">Concluído</span>
-                                </div>
-                            </div>
-                            <div class="content-item">
-                                <h6>Construindo um MVP</h6>
-                                <small class="text-muted">18 min • Em progresso</small>
-                                <div class="mt-2">
-                                    <div class="progress" style="height: 4px;">
-                                        <div class="progress-bar" style="width: 60%"></div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
                         </div>
-
-                        <div class="col-md-4 mb-3">
-                            <h5><i class="fas fa-file-text"></i> Textos</h5>
-                            <div class="content-item completed">
-                                <h6>Guia: Como Identificar Problemas</h6>
-                                <small class="text-muted">5 min de leitura • Lido</small>
-                                <div class="mt-2">
-                                    <i class="fas fa-check-circle text-success"></i>
-                                    <span class="ms-2">Concluído</span>
-                                </div>
-                            </div>
-                            <div class="content-item completed">
-                                <h6>Template: Canvas de Problema</h6>
-                                <small class="text-muted">Download • Baixado</small>
-                                <div class="mt-2">
-                                    <i class="fas fa-download text-success"></i>
-                                    <span class="ms-2">Baixado</span>
-                                </div>
-                            </div>
-                            <div class="content-item">
-                                <h6>Checklist: MVP Essencial</h6>
-                                <small class="text-muted">3 min de leitura</small>
-                                <div class="mt-2">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-book-open"></i> Ler
-                                    </button>
-                                </div>
-                            </div>
+                        <h4 class="fw-bold mb-3">Mentoria Especializada</h4>
+                        <p class="text-muted">Conecte-se com mentores experientes em diversas áreas para acelerar o desenvolvimento da sua solução.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-microphone"></i>
                         </div>
-
-                        <div class="col-md-4 mb-3">
-                            <h5><i class="fas fa-tasks"></i> Atividades</h5>
-                            <div class="content-item completed">
-                                <h6>Exercício: Mapeamento de Problemas</h6>
-                                <small class="text-muted">Prático • Entregue</small>
-                                <div class="mt-2">
-                                    <i class="fas fa-check-circle text-success"></i>
-                                    <span class="ms-2">Nota: 9.5</span>
-                                </div>
-                            </div>
-                            <div class="content-item completed">
-                                <h6>Quiz: Lean Startup Básico</h6>
-                                <small class="text-muted">10 questões • Concluído</small>
-                                <div class="mt-2">
-                                    <i class="fas fa-trophy text-warning"></i>
-                                    <span class="ms-2">85% de acerto</span>
-                                </div>
-                            </div>
-                            <div class="content-item">
-                                <h6>Projeto: Protótipo MVP</h6>
-                                <small class="text-muted">Em andamento</small>
-                                <div class="mt-2">
-                                    <button class="btn btn-sm btn-primary">
-                                        <i class="fas fa-upload"></i> Enviar
-                                    </button>
-                                </div>
-                            </div>
+                        <h4 class="fw-bold mb-3">IA Integrada</h4>
+                        <p class="text-muted">Transcrição de áudio automática, geolocalização inteligente e análise de problemas por inteligência artificial.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
                         </div>
+                        <h4 class="fw-bold mb-3">Analytics Avançado</h4>
+                        <p class="text-muted">Dashboard completo com métricas de progresso, impacto social e acompanhamento de resultados.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Multiplataforma</h4>
+                        <p class="text-muted">Acesse de qualquer dispositivo com interface responsiva e experiência otimizada para mobile.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <span class="stat-number" data-target="1250">0</span>
+                        <div class="stat-label">Problemas Validados</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <span class="stat-number" data-target="89">0</span>
+                        <div class="stat-label">Soluções Implementadas</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <span class="stat-number" data-target="156">0</span>
+                        <div class="stat-label">Mentores Ativos</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card">
+                        <span class="stat-number" data-target="2340">0</span>
+                        <div class="stat-label">Usuários Registrados</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fas fa-rocket me-2"></i>STARTWAY
+                    </h5>
+                    <p class="text-muted">Transformando problemas em oportunidades através da metodologia TDY e empreendedorismo inovador.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Plataforma</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Funcionalidades</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Preços</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">API</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Integrações</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Recursos</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Blog</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Documentação</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Tutoriais</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Webinars</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Empresa</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Sobre</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Carreiras</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Imprensa</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Suporte</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Central de Ajuda</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Status</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Comunidade</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">&copy; 2025 STARTWAY. Todos os direitos reservados.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-muted text-decoration-none me-3">Privacidade</a>
+                    <a href="#" class="text-muted text-decoration-none me-3">Termos</a>
+                    <a href="#" class="text-muted text-decoration-none">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-sign-in-alt me-2"></i>Entrar na sua conta
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Lembrar de mim</label>
+                        </div>
+                        <button type="submit" class="btn btn-login text-white">
+                            <i class="fas fa-sign-in-alt me-2"></i>Entrar
+                        </button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="#" class="text-decoration-none">Esqueceu sua senha?</a>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <p class="mb-2">Não tem uma conta?</p>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">
+                            Criar conta gratuita
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal para Nível Detalhado -->
-    <div class="modal fade" id="levelModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="levelModalTitle">Nível 3: MVP (Produto Mínimo Viável)</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title">
+                        <i class="fas fa-user-plus me-2"></i>Criar conta gratuita
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h6>Atividades do Nível</h6>
-                            <div class="list-group">
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <i class="fas fa-check-circle text-success me-2"></i>
-                                        Definir funcionalidades essenciais
-                                    </div>
-                                    <span class="badge bg-success">Concluído</span>
-                                </div>
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <i class="fas fa-check-circle text-success me-2"></i>
-                                        Escolher tecnologia adequada
-                                    </div>
-                                    <span class="badge bg-success">Concluído</span>
-                                </div>
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <i class="fas fa-check-circle text-success me-2"></i>
-                                        Criar wireframes básicos
-                                    </div>
-                                    <span class="badge bg-success">Concluído</span>
-                                </div>
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <i class="fas fa-circle text-warning me-2"></i>
-                                        Desenvolver protótipo funcional
-                                    </div>
-                                    <span class="badge bg-warning">Em andamento</span>
-                                </div>
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <i class="fas fa-circle text-muted me-2"></i>
-                                        Preparar para testes
-                                    </div>
-                                    <span class="badge bg-secondary">Pendente</span>
-                                </div>
+                <div class="modal-body p-4">
+                    <form id="registerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="firstName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Sobrenome</label>
+                                <input type="text" class="form-control" id="lastName" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <h6>Recursos</h6>
-                            <div class="list-group list-group-flush">
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <i class="fas fa-video me-2"></i> Vídeo: MVP na Prática
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <i class="fas fa-file-pdf me-2"></i> Template: Canvas MVP
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <i class="fas fa-link me-2"></i> Ferramentas Recomendadas
-                                </a>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirmar Senha</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                Concordo com os <a href="#" class="text-decoration-none">Termos de Uso</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-login text-white">
+                            <i class="fas fa-user-plus me-2"></i>Criar Conta
+                        </button>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <p class="mb-2">Já tem uma conta?</p>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">
+                            Fazer login
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Modal -->
+    <div class="modal fade" id="demoModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-video me-2"></i>Demo do STARTWAY
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <div class="ratio ratio-16x9 mb-3">
+                        <div class="bg-light d-flex align-items-center justify-content-center">
+                            <div>
+                                <i class="fas fa-play-circle fa-5x text-primary mb-3"></i>
+                                <h5>Vídeo demonstrativo em breve</h5>
+                                <p class="text-muted">Conheça todas as funcionalidades do STARTWAY</p>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary">Continuar Atividade</button>
+                    <button class="btn btn-primary" onclick="window.location.href='formulario/index.html'">
+                        <i class="fas fa-rocket me-2"></i>Experimentar Agora
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function showView(view) {
-            // Atualizar botões
-            document.querySelectorAll('.btn-group .btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Mostrar/ocultar visualizações
-            if (view === 'levels') {
-                document.getElementById('levelsView').style.display = 'block';
-                document.getElementById('contentView').style.display = 'none';
-            } else {
-                document.getElementById('levelsView').style.display = 'none';
-                document.getElementById('contentView').style.display = 'block';
-            }
-        }
-
-        function openLevel(levelNumber) {
-            const modal = new bootstrap.Modal(document.getElementById('levelModal'));
-            modal.show();
-        }
-
-        // Atualizar progresso circular
-        function updateProgress(percent) {
-            const circle = document.getElementById('progressCircle');
-            const circumference = 2 * Math.PI * 50; // raio = 50
-            const offset = circumference - (percent / 100) * circumference;
-            circle.style.strokeDashoffset = offset;
-        }
-
-        // Inicializar com 20% de progresso
-        updateProgress(20);
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
 

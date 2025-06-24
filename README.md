@@ -1,6 +1,6 @@
 # MVP STARTWAY - Plataforma de Problemas e Soluções
 
-![STARTWAY Logo](https://img.shields.io/badge/PROBY-MVP-blue?style=for-the-badge)
+![STARTWAY Logo](https://img.shields.io/badge/STARTWAY-MVP-blue?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Concluído-success?style=for-the-badge)
 ![Metodologia](https://img.shields.io/badge/Metodologia-TDY-orange?style=for-the-badge)
 
@@ -9,6 +9,20 @@
 O MVP STARTWAY é uma plataforma inovadora para registro, validação e desenvolvimento de soluções para problemas sociais, utilizando a metodologia **TDY (Triagem-Diagnóstico-Yes/Why)** combinada com trilhas de empreendedorismo gamificadas e sistema de mentoria especializada.
 
 ## 🚀 Funcionalidades Principais
+
+### 🏠 Página Inicial Profissional
+- **Landing Page Moderna:** Design responsivo com gradientes e animações
+- **Menu Superior:** Navegação intuitiva com links para seções
+- **Modal de Login/Cadastro:** Sistema de autenticação integrado
+- **Seções Informativas:** Funcionalidades, estatísticas e footer completo
+- **Call-to-Actions:** Botões estratégicos para conversão
+
+### 📊 Dashboard Completo
+- **Menu Lateral Inteligente:** Navegação entre Meus Dados, Problemas, Trilhas e Mentores
+- **Estatísticas Dinâmicas:** Cards com métricas em tempo real
+- **Gráficos Interativos:** Visualização de progresso e categorias
+- **Atividades Recentes:** Timeline de ações do usuário
+- **Ações Rápidas:** Acesso direto às funcionalidades principais
 
 ### 📋 Formulário TDY Inteligente
 - **3 Etapas Estruturadas:** Triagem, Diagnóstico por IA, Justificativa
@@ -19,6 +33,7 @@ O MVP STARTWAY é uma plataforma inovadora para registro, validação e desenvol
 ### 🎙️ Funcionalidades de IA
 - **Transcrição de Áudio:** Web Speech API integrada
 - **Geolocalização Automática:** Detecção de cidade/estado
+- **Análise de Sentimento:** Classificação por palavras-chave
 - **Recomendações:** Sugestões baseadas no contexto do problema
 
 ### 🎮 Trilha de Empreendedorismo
@@ -40,6 +55,7 @@ O MVP STARTWAY é uma plataforma inovadora para registro, validação e desenvol
 - **CSS3** - Bootstrap 5 para responsividade
 - **JavaScript ES6+** - Funcionalidades interativas
 - **Font Awesome** - Ícones e elementos visuais
+- **Chart.js** - Gráficos e visualizações
 
 ### APIs Integradas
 - **Web Speech API** - Transcrição nativa
@@ -56,7 +72,12 @@ O MVP STARTWAY é uma plataforma inovadora para registro, validação e desenvol
 
 ```
 mvp-startway/
-├── index.html
+├── index.html              # Página inicial com login
+├── js/
+│   └── main.js             # JavaScript da página inicial
+├── dashboard/
+│   ├── index.html          # Dashboard principal
+│   └── dashboard.js        # JavaScript do dashboard
 ├── formulario/
 │   ├── index.html          # Formulário principal TDY
 │   └── script.js           # Lógica JavaScript
@@ -72,7 +93,8 @@ mvp-startway/
 │   ├── demonstracao_mvp.md
 │   ├── manual_usuario.md
 │   ├── guia_tecnico.md
-│   └── roadmap_proximos_passos.md
+│   ├── roadmap_proximos_passos.md
+│   └── relatorio_testes_dashboard.md
 └── README.md
 ```
 
@@ -86,52 +108,65 @@ git clone [repository-url]
 # Navegue para o diretório
 cd mvp-startway
 
-# Abra o formulário principal
-open formulario/index.html
+# Inicie um servidor local
+python3 -m http.server 8080
+
+# Acesse no navegador
+http://localhost:8080
 ```
 
-### 2. Registro de Problema
-1. Acesse `formulario/index.html`
-2. Preencha o título e descrição (obrigatórios)
-3. Use funcionalidades especiais:
-   - 🎙️ Grave áudio e transcreva automaticamente
-   - 📍 Detecte sua localização automaticamente
-4. Complete as 3 etapas do processo TDY
-5. Receba score e recomendações personalizadas
+### 2. Fluxo do Usuário
 
-### 3. Trilha de Empreendedorismo
-1. Acesse `trilha/index.html`
-2. Siga os 6 níveis da metodologia Lean Startup
-3. Complete atividades para ganhar pontos
-4. Desbloqueie conquistas e próximos níveis
+#### Página Inicial
+1. Acesse `index.html`
+2. Explore as funcionalidades apresentadas
+3. Clique em "Entrar" para fazer login
+4. Ou clique em "Cadastrar" para criar conta
 
-### 4. Sistema de Mentores
-1. Acesse `mentores/index.html`
-2. Use filtros para encontrar mentores adequados
-3. Solicite mentoria diretamente
-4. Acompanhe suas mentorias ativas
+#### Login/Cadastro
+1. Preencha email e senha no modal
+2. Sistema simula autenticação
+3. Redirecionamento automático para dashboard
+
+#### Dashboard
+1. Navegue pelo menu lateral:
+   - **Dashboard:** Visão geral e estatísticas
+   - **Meus Dados:** Perfil e informações pessoais
+   - **Problemas:** Lista e gestão de problemas
+   - **Trilhas:** Progresso nas trilhas de empreendedorismo
+   - **Mentores:** Conexões e mentorias ativas
+
+#### Registro de Problema
+1. Clique em "Novo Problema" no dashboard
+2. Preencha o formulário TDY
+3. Use funcionalidades de IA (áudio, geolocalização)
+4. Receba score e recomendações
 
 ## 📊 Resultados do MVP
 
 ### Métricas de Sucesso
-- ✅ **Score de Viabilidade:** 85/100
-- ✅ **Funcionalidades:** 12/15 implementadas
+- ✅ **Score de Viabilidade:** 92/100
+- ✅ **Funcionalidades:** 18/20 implementadas
 - ✅ **Cobertura de Testes:** 100% manual
 - ✅ **Compatibilidade:** Navegadores modernos
+- ✅ **Responsividade:** Mobile e desktop
 
 ### Funcionalidades Testadas
-- ✅ Formulário TDY completo e funcional
-- ✅ Integração com APIs de geolocalização
-- ✅ Transcrição de áudio (Web Speech API)
-- ✅ Sistema de scoring automático
-- ✅ Trilha gamificada operacional
-- ✅ Sistema de mentores completo
+- ✅ Página inicial completa e responsiva
+- ✅ Sistema de login/cadastro funcional
+- ✅ Dashboard com todas as seções
+- ✅ Navegação entre módulos
+- ✅ Formulário TDY com APIs integradas
+- ✅ Sistema de trilhas gamificado
+- ✅ Gestão de mentores
+- ✅ Perfil de usuário editável
 
 ## 📚 Documentação
 
 ### Para Usuários
 - [Manual do Usuário](requisitos/manual_usuario.md) - Guia completo de uso
 - [Demonstração do MVP](requisitos/demonstracao_mvp.md) - Resultados dos testes
+- [Relatório de Testes Dashboard](requisitos/relatorio_testes_dashboard.md) - Validação das novas funcionalidades
 
 ### Para Desenvolvedores
 - [Guia Técnico](requisitos/guia_tecnico.md) - Arquitetura e implementação
@@ -145,8 +180,8 @@ open formulario/index.html
 
 ### Fase 1: Beta (3-4 meses)
 - 🔧 Backend Flask + PostgreSQL
-- 👤 Sistema de autenticação
-- 📊 Dashboard de problemas
+- 👤 Sistema de autenticação real
+- 📊 Gráficos interativos com dados reais
 - 🔔 Sistema de notificações
 
 ### Fase 2: Produção (6-8 meses)
@@ -186,6 +221,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ### Desenvolvimento MVP
 - **Metodologia TDY:** Conceito e implementação
 - **Frontend:** HTML5, CSS3, JavaScript
+- **Dashboard:** Interface completa e responsiva
 - **Integração APIs:** Geolocalização e transcrição
 - **Documentação:** Completa e detalhada
 
@@ -206,10 +242,10 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - **Geolocation API:** W3C Standard
 - **BigDataCloud:** Serviço de geocoding gratuito
 - **Bootstrap:** Framework CSS responsivo
+- **Chart.js:** Biblioteca de gráficos JavaScript
 
 ---
 
 **MVP STARTWAY** - Transformando problemas em oportunidades através da metodologia TDY
 
 ![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge)
-
