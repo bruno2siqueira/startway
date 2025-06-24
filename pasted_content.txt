@@ -1,0 +1,62 @@
+Metodologia de validação de problemas usada pela ProbY
+A ProbY — “Plataforma Inteligente de Problemas Globais” — opera sobre um framework proprietário chamado TDY (“Tudo Começa e Termina no Problema”). O método não foi publicado como artigo acadêmico, mas as etapas podem ser reconstruídas a partir dos materiais institucionais da própria plataforma e de depoimentos dos fundadores.
+proby.online
+proby.online
+br.linkedin.com
+
+Fase (sigla)	Objetivo central	Evidências / ferramental
+T — Triagem	Mapear e coletar problemas “brutos”* (crowdsourcing, scraping de bases públicas, formulário de submissão).	IA de linguagem natural identifica tema, local, palavras-chave e segmento-ODS; painel mostra volume, geografia e tendência temporal.
+proby.online
+D — Diagnóstico	Classificar e priorizar: mede frequência, urgência, gravidade, stakeholders afetados e custo-impacto (dor x oportunidade).	Algoritmos de clusterização e pontuação preditiva; entrevistas curtas (“problem interviews”) para checar causalidade; matriz dor-valor.
+proby.online
+Y — “Yes/Why?”	Validar a relevância e decidir se o problema ganha um challenge na plataforma. Pergunta-chave: “Por que resolver agora? (Why now?)” e “Sim, vale avançar? (Yes)”	Grupo focal rápido, enquadramento em ODS e metas ESG; cálculo de problem-solution fit preliminar; abertura de sala de ideação para parceiros.
+
+* Problema “bruto” é qualquer dor explicitada sem filtragem técnica.
+
+Passo a passo resumido
+Captura estruturada – usuários ou robôs de coleta enviam texto, foto ou planilha; a IA gera um resumo e atribui rótulos.
+
+Score TDY-DOR – algoritmo gera nota 0-100 combinando (a) número de pessoas afetadas, (b) intensidade do impacto, (c) custo de inação.
+
+Entrevistas de confirmação – 5–7 entrevistas curtas (Lean Problem Interview) garantem que a descrição reflete a dor real, não suposição interna.
+
+Painel preditivo – problemas acima de 60/100 entram numa fila pública; o dashboard mostra correlação com indicadores locais (ex.: IDH, índice de perdas na cadeia, etc.).
+
+Decisão Y – se o problema atinge tração (10 up-votes + 2 parceiros interessados ou validação estatística > p 0,05), abre-se um challenge. Caso contrário, o item volta ao backlog para coleta extra de dados.
+
+Relatório de validação – exportável em .csv ou via API para que governos, ONGs ou startups pluguem seus próprios KPIs.
+
+Por que o TDY é diferente de métodos genéricos (Lean Startup, JTBD)?
+Aspecto	Lean/JTBD	TDY ProbY
+Foco primário	Produto e cliente	Problema como ativo de dados
+Nível de granularidade	Hipótese de negócio	Inventário contínuo de dores (problem-inventory)
+Escalabilidade	Equipe única	Rede distribuída (crowdsourcing)
+Métrica-gate	MVP / “solution interview”	Score TDY-DOR ≥ 60 + tração social
+
+Como aproveitar o TDY no seu projeto
+Crie um backlog apenas de dores, não de features.
+
+Para cada dor, aplique o score TDY-DOR (pode usar pesos 3-2-1 para gravidade-frequência-urgência).
+
+Só avance para prototipagem quando o problema for confirmado por pessoas diferentes do proponente inicial.
+
+Mantenha um dashboard vivo: se a dor perder tração, pare antes de gastar em solução.
+
+Conecte-se à comunidade ProbY ou replique a lógica com ferramentas low-code (Planilhas + IA generativa).
+
+“Tudo começa e termina no problema” — cultura declarada da ProbY, lembrando-nos de validar a dor antes de apaixonar-nos pela solução.
+proby.online
+
+Em síntese: a ProbY valida problemas via TDY, um funil em três macro-etapas (Triagem → Diagnóstico → Yes/Why) suportado por IA, entrevistas curtas e métricas objetivas. O resultado é um cadastro de dores já priorizadas, prontas para que startups, ONG s ou governos ataquem com soluções mais certeiras.
+
+
+
+
+
+
+
+
+
+
+Fontes
+
